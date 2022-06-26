@@ -11,7 +11,7 @@
   "dependencies": {
     "algoliasearch": "^4.13.1",
     "instantsearch.css": "^7.4.5",
-    "instantsearch.js": "^4.41.0",
+    "instantsearch.js": "^4.41.2",
     "register-service-worker": "^1.7.1",
     "search-insights": "^2.2.1",
     "vue": "^2.6.11",

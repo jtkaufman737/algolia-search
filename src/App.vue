@@ -10,13 +10,13 @@
           <div 
             :id="item.objectID"
             class="searchResults" 
-            @click="runClickOnResult(sendEvent, item)" 
+            @click="sendEvent('click', item, 'Item Starred')"
             v-for="item in items" 
             :key="item.objectID"
           >
             <span id="header">
               <h5>{{ item.title }}</h5>
-              <img :id="`img-${item.objectID}`" src="https://i.imgur.com/5Je2dmA.png" alt="thumbs up"/>
+              <img :id="`img-${item.objectID}`" src="https://i.imgur.com/5Je2dmA.png" @click="favorite(`img-${item.objectID}`)" alt="thumbs up"/>
             </span>  
             <br/>
             <p>{{ item.resume }}</p>
@@ -29,14 +29,20 @@
 
 <script>
 import algoliasearch from 'algoliasearch/lite';
-import instantsearch from 'instantsearch.js';
 import 'instantsearch.css/themes/satellite-min.css';
 import { createInsightsMiddleware } from 'instantsearch.js/es/middlewares';
 import aa from 'search-insights';
 
+aa('init', {
+  appId: process.env.VUE_APP_ALGOLIA_APPLICATION_ID,
+  apiKey: process.env.VUE_APP_ALGOLIA_SEARCH_API_KEY
+});
+
+aa('setUserToken', '32f32sfds94s032dfjskal')
+
 const insightsMiddleware = createInsightsMiddleware({
   insightsClient: aa,
-})
+});
 
 export default {
   data() {
@@ -47,16 +53,15 @@ export default {
           process.env.VUE_APP_ALGOLIA_APPLICATION_ID,
           process.env.VUE_APP_ALGOLIA_SEARCH_API_KEY
         ),
-      instantSearch: null,
       middlewares: [insightsMiddleware]
     };
   },
   methods: {
-    runClickOnResult(method, item) {
-      method('click', item, 'Item Starred');
-      document.getElementById(`img-${item.objectID}`).src = "https://i.imgur.com/j635pgy.png";
+    favorite(id) {
+      const icon = document.getElementById(id);
+      icon.src = "https://i.imgur.com/j635pgy.png";
     }
-  },
+  }
 };
 </script>
 
